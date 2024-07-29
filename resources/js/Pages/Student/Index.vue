@@ -5,69 +5,168 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router, useForm, usePage } from "@inertiajs/vue3";
 import { ref, watch, computed } from "vue";
 
+/**
+ * Props for the Student Index page.
+ *
+ * @typedef {Object} StudentIndexProps
+ * @property {Object} students - The students data.
+ * @property {Object} classes - The classes data.
+ */
 defineProps({
     students: {
         type: Object,
     },
     classes: {
         type: Object,
+        /**
+         * The classes data is required.
+         */
         required: true,
     },
 });
 
-let pageNumber = ref(1),
-    searchTerm = ref(usePage().props.search ?? ""),
-    class_id = ref(usePage().props.class_id ?? "");
+/**
+ * Reactive reference to the current page number.
+ *
+ * @type {import('vue').Ref<number>}
+ */
+let pageNumber = ref(1);
 
+/**
+ * Reactive reference to the search term.
+ *
+ * @type {import('vue').Ref<string>}
+ * @description If the search term is not provided in the page props, it will default to an empty string.
+ */
+let searchTerm = ref(usePage().props.search ?? "");
+
+/**
+ * Reactive reference to the class ID.
+ *
+ * @type {import('vue').Ref<string>}
+ * @description If the class ID is not provided in the page props, it will default to an empty string.
+ */
+let class_id = ref(usePage().props.class_id ?? "");
+
+/**
+ * Update the page number based on the given link.
+ *
+ * @param {Object} link - The link object containing the URL.
+ * @param {string} link.url - The URL from which to extract the page number.
+ */
 const pageNumberUpdated = (link) => {
+    // Extract the page number from the URL and update the pageNumber reactive reference.
+    // The URL is expected to have a query parameter named "page" with the page number as its value.
+    // For example: "/students?page=2"
     pageNumber.value = link.url.split("=")[1];
 };
 
+
+/**
+ * Computed property that returns the URL for fetching students data.
+ *
+ * @return {URL} - The URL object containing the URL for fetching students data.
+ * @description The URL is constructed using the route function and includes the page number, search term, and class ID as query parameters.
+ */
 let studentsUrl = computed(() => {
+    // Create a new URL object using the route function for the students index route.
     const url = new URL(route("students.index"));
 
+    // Set the page number as a query parameter in the URL.
     url.searchParams.set("page", pageNumber.value);
 
+    // If a search term is provided, set it as a query parameter in the URL.
     if (searchTerm.value) {
         url.searchParams.set("search", searchTerm.value);
     }
 
+    // If a class ID is provided, append it as a query parameter in the URL.
     if (class_id.value) {
         url.searchParams.append("class_id", class_id.value);
     }
 
+    // Return the constructed URL object.
     return url;
 });
 
+
+/**
+ * Watches for changes in the studentsUrl computed property and updates the route accordingly.
+ *
+ * @param {URL} newValue - The new value of the studentsUrl computed property.
+ * @description When the studentsUrl computed property changes, it updates the route to reflect the new URL.
+ *              This ensures that the data displayed in the page is refreshed with the new URL.
+ *              The update is done using the router's visit method, which allows for preserving the current state and scroll position.
+ */
 watch(
+    // Watch for changes in the studentsUrl computed property.
     () => studentsUrl.value,
+    // When the studentsUrl computed property changes:
     (newValue) => {
+        // Update the route to reflect the new URL.
         router.visit(newValue, {
+            // Replace the current history entry with the new URL.
             replace: true,
+            // Preserve the current state, including form data and scroll position.
             preserveState: true,
+            // Preserve the current scroll position.
             preserveScroll: true,
         });
     }
 );
 
+/**
+ * Watches for changes in the searchTerm reactive reference and updates the pageNumber if a search term is provided.
+ *
+ * @param {string} value - The new value of the searchTerm reactive reference.
+ * @description When the searchTerm reactive reference changes, it checks if a search term is provided. If a search term is provided,
+ *              it updates the pageNumber reactive reference to 1, effectively resetting the pagination to the first page.
+ */
 watch(
+    // Watch for changes in the searchTerm reactive reference.
     () => searchTerm.value,
+    // When the searchTerm reactive reference changes:
     (value) => {
+        // If a search term is provided:
         if (value) {
+            // Reset the pageNumber reactive reference to 1.
             pageNumber.value = 1;
         }
     }
 );
 
-const deleteForm = useForm({});
+/**
+ * A reactive form object used for deleting students.
+ * @type {import('@inertiajs/vue3').Form}
+ */
+const deleteForm = useForm({
+    /**
+     * The form data for the delete form.
+     * @type {Object}
+     * @property {} - The form data is empty, as we don't need to send any data to the server when deleting a student.
+     */
+});
 
+
+/**
+ * Deletes a student.
+ *
+ * @param {number} id - The ID of the student to delete.
+ * @returns {void}
+ */
 const deleteStudent = (id) => {
+    // Prompt the user to confirm the deletion of the student.
     if (confirm("Are you sure you want to delete this student?")) {
+        // Delete the student using the deleteForm reactive form object.
+        // The route method generates a URL for the students.destroy route, passing the student's ID as a parameter.
+        // The delete method sends a DELETE request to the server to delete the student.
+        // The preserveScroll option is set to true, which means the current scroll position will be preserved after the deletion is completed.
         deleteForm.delete(route("students.destroy", id), {
             preserveScroll: true,
         });
     }
 };
+
 </script>
 
 <template>

@@ -5,24 +5,105 @@ import { watch, ref, onMounted } from "vue";
 import axios from "axios";
 import InputError from "@/Components/InputError.vue";
 
+/**
+ * Define the props for the Student Edit page.
+ *
+ * @typedef {Object} StudentEditProps
+ * @property {Object} classes - The classes data.
+ */
 defineProps({
+    /**
+     * The classes data for the Student Edit page.
+     *
+     * @type {Object}
+     */
     classes: {
         type: Object,
     },
 });
 
+/**
+ * Reactive reference to the sections data.
+ *
+ * @type {import('vue').Ref<Object>}
+ * @description This reactive reference is used to store the sections data received from the API.
+ */
 let sections = ref({});
-const student = usePage().props.student;
 
+/**
+ * Reactive reference to the student data.
+ *
+ * @type {import('vue').Ref<Object>}
+ * @description This reactive reference is used to store the student data received from the API.
+ */
+let student = ref(usePage().props.student);
+
+/**
+ * Reactive reference to the student data.
+ *
+ * @type {import('vue').Ref<Object>}
+ * @description This reactive reference is used to store the student data received from the API.
+ */
+// The `usePage().props.student` is used to access the student data passed from the server.
+// The `ref` function is used to convert the student data into a reactive reference,
+// allowing us to easily update the student data and trigger reactive updates in the Vue component.
+
+/**
+ * Reactive reference to the form data.
+ *
+ * @type {import('@inertiajs/vue3').UseFormReturn<{
+ *     name: string,
+ *     email: string,
+ *     class_id: string,
+ *     section_id: string,
+ * }>}
+ * @description This reactive reference is used to store the form data for the student.
+ * The `useForm` function is used to create a reactive form object.
+ * The `ref` function is used to convert the student data into a reactive reference,
+ * allowing us to easily update the form data and trigger reactive updates in the Vue component.
+ */
 const form = useForm({
+    /**
+     * The name of the student.
+     *
+     * @type {string}
+     */
     name: student.data.name,
+    /**
+     * The email address of the student.
+     *
+     * @type {string}
+     */
     email: student.data.email,
+    /**
+     * The ID of the class that the student belongs to.
+     *
+     * @type {string}
+     */
     class_id: student.data.class_id,
+    /**
+     * The ID of the section that the student belongs to.
+     *
+     * @type {string}
+     */
     section_id: student.data.section_id,
 });
 
+/**
+ * Watches for changes in the `class_id` property of the `form` object.
+ * When the `class_id` changes, it calls the `getSections` function with the new `class_id` value.
+ *
+ * @param {string} newValue - The new value of the `class_id` property.
+ * @return {void}
+ */
 watch(
     () => form.class_id,
+    /**
+     * Updates the sections based on the new class ID.
+     *
+     * @param {string} newValue - The new value of the class ID.
+     * @return {void}
+     */
     (newValue) => {
         getSections(newValue);
     }
