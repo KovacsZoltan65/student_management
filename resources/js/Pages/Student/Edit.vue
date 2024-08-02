@@ -14,37 +14,93 @@ defineProps({
 let sections = ref({});
 const student = usePage().props.student;
 
+
+/**
+ * Reaktív hivatkozás az űrlap adataira.
+ *
+ * @type {import('@inertiajs/vue3').UseFormReturn<{
+ *     name: string,
+ *     email: string,
+ *     class_id: string,
+ *     section_id: string,
+ * }>}
+ * @description Ez a reaktív hivatkozás a tanuló űrlapadatainak tárolására szolgál.
+ * A `useForm` függvény egy reaktív űrlapobjektum létrehozására szolgál.
+ * A "ref" függvény a tanulói adatok reaktív hivatkozássá alakítására szolgál,
+ * Lehetővé teszi számunkra az űrlapadatok egyszerű frissítését és a Vue komponens reaktív frissítéseinek elindítását.
+ */
 const form = useForm({
+    /**
+     * A tanuló neve.
+     *
+     * @type {string}
+     */
     name: student.data.name,
+
+    /**
+     * A hallgató e-mail címe.
+     *
+     * @type {string}
+     */
     email: student.data.email,
+
+    /**
+     * Annak az osztálynak az azonosítója, amelyhez a tanuló tartozik.
+     *
+     * @type {string}
+     */
     class_id: student.data.class_id,
+
+    /**
+     * A tanuló szakaszának azonosítója.
+     *
+     * @type {string}
+     */
     section_id: student.data.section_id,
 });
 
 
 /**
- * Figyeli a `form.class_id` változásait, és lekéri a szakaszokat az új érték alapján.
+ * Figyeli az űrlap class_id tulajdonságának változásait, és lekéri az új class_id szakaszokat.
  *
- * @param {string} newValue - Az új `form.class_id` érték.
+ * @param {string} newValue - A class_id tulajdonság új értéke.
  * @return {void}
  */
 watch(
-    // A figyelendő kifejezés. Ez egy olyan függvény, amely visszaadja a figyelni kívánt értéket.
+    // A figyelő funkció úgy van beállítva, hogy figyelje az űrlap class_id tulajdonságának változásait.
     () => form.class_id,
     /**
-     * Ez a függvény akkor hívódik meg, ha a figyelt érték megváltozik.
-     * A `form.class_id` új értéke alapján kéri le a szakaszokat.
+     * Ez a funkció akkor kerül végrehajtásra, amikor a figyelt tulajdonság megváltozik.
+     * Ha az új érték falsy, törli a szakaszok reaktív hivatkozását.
+     * Ellenkező esetben lekéri az új class_id szakaszokat.
      *
-     * @param {string} newValue - Az új `form.class_id` érték.
+     * @param {string} newValue - A class_id tulajdonság új értéke.
      * @return {void}
      */
     (newValue) => {
-        getSections(newValue);
+        // Ha az új érték hamis, törölje a szakaszok reaktív hivatkozását.
+        if (!newValue) {
+            sections.value = {};
+        }
+        // Ellenkező esetben kérje le az új class_id szakaszokat.
+        else {
+            getSections(newValue);
+        }
     }
 );
 
+
+/**
+ * Ez a funkció akkor hívódik meg, amikor az összetevő fel van szerelve.
+ * Lekéri a szakaszokat a tanuló szakaszának osztályazonosítója alapján.
+ *
+ * @return {void}
+ */
 onMounted(() => {
-    //getSections(student.data.class_id);
+    // A szakaszok lekérése a tanuló szakaszának osztályazonosítója alapján.
+    // Az osztályazonosító a tanulói adatokból származik.
+    // getSections(student.data.class_id);
+    // Az osztályazonosítót a tanuló szakaszadataiból kapjuk.
     getSections(student.data.section.class_id);
 });
 
@@ -65,7 +121,22 @@ const getSections = (id) => {
         });
 };
 
+
+/**
+ * Ez a funkció felelős az űrlapadatok kiszolgálóhoz történő elküldéséért.
+ * PUT kérést küld a szervernek a hallgatói rekord frissítésére.
+ * A "preserveScroll" beállítás "true"-ra van állítva, ami azt jelenti, 
+ * hogy az oldal aktuális görgetési pozíciója megmarad az oldal frissítése után.
+ *
+ * @return {void}
+ */
 const submit = () => {
+    // PUT kérés küldése a szervernek a tanulói rekord frissítéséhez.
+    // A `route` függvény a students.update útvonal URL-jének generálására szolgál, 
+    // paraméterként átadva a diákazonosítót.
+    // A `form.put` metódus az űrlapadatok kiszolgálóra küldésére szolgál.
+    // A "preserveScroll" beállítás "true"-ra van állítva, ami azt jelenti, 
+    // hogy az oldal aktuális görgetési pozíciója megmarad az oldal frissítése után.
     form.put(route("students.update", student.data.id), {
         preserveScroll: true,
     });

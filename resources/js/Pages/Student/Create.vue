@@ -58,23 +58,33 @@ const form = useForm({
     section_id: "",
 });
 
+
 /**
- * Figyelő a `form.class_id` változására.
- * Ha a `form.class_id` értéke megváltozik, akkor a `getSections` függvényt hívja meg az új `newValue` értékkel.
+ * Figyeli az űrlap class_id tulajdonságának változásait, és lekéri az új class_id szakaszokat.
  *
- * @param {string} newValue - Az új `form.class_id` érték.
+ * @param {string} newValue - A class_id tulajdonság új értéke.
  * @return {void}
  */
 watch(
+    // A figyelő funkció úgy van beállítva, hogy figyelje az űrlap class_id tulajdonságának változásait.
     () => form.class_id,
     /**
-     * Frissíti a szakaszokat az új osztály azonosítója alapján.
+     * Ez a funkció akkor kerül végrehajtásra, amikor a figyelt tulajdonság megváltozik.
+     * Ha az új érték falsy, törli a szakaszok reaktív hivatkozását.
+     * Ellenkező esetben lekéri az új class_id szakaszokat.
      *
-     * @param {string} newValue - Az új `form.class_id` érték.
+     * @param {string} newValue - A class_id tulajdonság új értéke.
      * @return {void}
      */
     (newValue) => {
-        getSections(newValue);
+        // Ha az új érték hamis, törölje a szakaszok reaktív hivatkozását.
+        if (!newValue) {
+            sections.value = {};
+        }
+        // Ellenkező esetben kérje le az új class_id szakaszokat.
+        else {
+            getSections(newValue);
+        }
     }
 );
 

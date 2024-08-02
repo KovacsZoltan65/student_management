@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Classes;
-use App\Models\Student;
-use Illuminate\Http\Request;
-use App\Http\Resources\ClassResource;
-use App\Http\Resources\StudentResource;
-use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+use App\Http\Resources\ClassResource;
+use App\Http\Resources\SectionResource;
+use App\Http\Resources\StudentResource;
+use App\Models\Classes;
+use App\Models\Section;
+use App\Models\Student;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Inertia\Response;
 
 class StudentController extends Controller
 {
@@ -19,8 +23,8 @@ class StudentController extends Controller
      * Ez a funkció lekéri a tanulók lapszámozott listáját a hozzájuk tartozó osztályokkal.
      * A keresési lekérdezési karakterláncot is tartalmazza a válaszban, ha létezik.
      *
-     * @param \Illuminate\Http\Request $request A HTTP kérés objektuma.
-     * @return \Inertia\Response Az ŰInertia válaszobjektum.
+     * @param Request $request A HTTP kérés objektuma.
+     * @return Response Az ŰInertia válaszobjektum.
      */
     public function index(Request $request)
     {
@@ -29,6 +33,8 @@ class StudentController extends Controller
         // Töltse le az összes osztályt.
         $classes = ClassResource::collection(Classes::all());
 
+        $sections = SectionResource::collection(Section::all());
+        
         // Visszatérés az Inertia nézethez a lapszámozott tanulókkal és osztályokkal.
         // A keresési lekérdezési karakterláncot is tartalmazza a válaszban, ha létezik.
         return inertia('Student/Index', [
@@ -36,6 +42,7 @@ class StudentController extends Controller
                 $studentQuery->paginate(5)
             ),
             'classes' => $classes,
+            'sections' => $sections,
             'search' => request('search') ?? ''
         ]);
     }
@@ -47,12 +54,13 @@ class StudentController extends Controller
      * Ellenőrzi, hogy a keresési paraméter szerepel-e a kérésben, és ha igen,
      * egy where záradékot ad a lekérdezéshez a tanulók név szerinti szűréséhez.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query A lekérdezéskészítő objektum.
+     * @param Builder $query A lekérdezéskészítő objektum.
      * @param string|null $search A keresési paraméter a kérésből.
-     * @return \Illuminate\Database\Eloquent\Builder A módosított lekérdezéskészítő objektum.
+     * @return Builder A módosított lekérdezéskészítő objektum.
      */
     protected function applySearch(Builder $query, $search)
     {
+\Log::info('$search: ' . print_r($search, true));
         // Ha a keresési paraméter megvan, adjon hozzá egy where záradékot a tanulók név szerinti szűréséhez.
         return $query->when($search, function ($query, $search) {
             $query->where('name', 'like', '%' . $search . '%');
@@ -62,7 +70,7 @@ class StudentController extends Controller
     /**
      * Hozza létre egy új tanulói rekord létrehozására szolgáló oldalt.
      *
-     * @return \Inertia\Response A tanuló létrehozása oldal.
+     * @return Response A tanuló létrehozása oldal.
      */
     public function create()
     {
@@ -81,7 +89,7 @@ class StudentController extends Controller
      * Hozza létre egy új tanulói rekordot az adatbázisban.
      *
      * @param StoreStudentRequest $request A tanulói rekord létrehozásához használt érvényesítéses kérés objektum.
-     * @return \Illuminate\Http\RedirectResponse Átirányítási válasz a tanulók indexoldalára.
+     * @return RedirectResponse Átirányítási válasz a tanulók indexoldalára.
      */
     public function store(StoreStudentRequest $request)
     {
@@ -96,7 +104,7 @@ class StudentController extends Controller
      * Nyújt egy tanulói rekord szerkesztésére szolgáló oldalat.
      *
      * @param Student $student A szerkesztendő tanulói rekord.
-     * @return \Inertia\Response A tanuló szerkesztésére szolgáló oldal.
+     * @return Response A tanuló szerkesztésére szolgáló oldal.
      */
     public function edit(Student $student)
     {
@@ -118,7 +126,7 @@ class StudentController extends Controller
      *
      * @param UpdateStudentRequest $request Az érvényesített frissítési kérés objektum.
      * @param Student $student A frissítendő tanulói rekord.
-     * @return \Illuminate\Http\RedirectResponse Átirányítási válasz a tanulók indexoldalára.
+     * @return RedirectResponse Átirányítási válasz a tanulók indexoldalára.
      */
     public function update(UpdateStudentRequest $request, Student $student)
     {
@@ -133,7 +141,7 @@ class StudentController extends Controller
      * Töröl egy tanulói rekordot az adatbázisból.
      *
      * @param Student $student A törlendő tanulói rekord.
-     * @return \Illuminate\Http\RedirectResponse Átirányítási válasz a tanulók indexoldalára.
+     * @return RedirectResponse Átirányítási válasz a tanulók indexoldalára.
      */
     public function destroy(Student $student)
     {
