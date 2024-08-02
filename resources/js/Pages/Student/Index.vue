@@ -6,11 +6,11 @@ import { Head, Link, router, useForm, usePage } from "@inertiajs/vue3";
 import { ref, watch, computed } from "vue";
 
 /**
- * Props for the Student Index page.
+ * Kellékek a Diákindex oldalhoz.
  *
  * @typedef {Object} StudentIndexProps
- * @property {Object} students - The students data.
- * @property {Object} classes - The classes data.
+ * @property {Object} tanulók – A tanulók adatai.
+ * @property {Object} osztályok – Az osztályok adatai.
  */
 defineProps({
     students: {
@@ -19,148 +19,151 @@ defineProps({
     classes: {
         type: Object,
         /**
-         * The classes data is required.
+         * Az osztályok adatai kötelezőek.
          */
         required: true,
     },
 });
 
 /**
- * Reactive reference to the current page number.
+ * Reaktív hivatkozás az aktuális oldalszámra.
  *
  * @type {import('vue').Ref<number>}
  */
 let pageNumber = ref(1);
 
 /**
- * Reactive reference to the search term.
+ * Reaktív hivatkozás a keresett kifejezésre.
  *
  * @type {import('vue').Ref<string>}
- * @description If the search term is not provided in the page props, it will default to an empty string.
+ * @description Ha a keresett kifejezés nincs megadva az oldal kellékei között, akkor alapértelmezés szerint üres karakterlánc lesz.
  */
 let searchTerm = ref(usePage().props.search ?? "");
 
 /**
- * Reactive reference to the class ID.
+ * Reaktív hivatkozás az osztályazonosítóra.
  *
  * @type {import('vue').Ref<string>}
- * @description If the class ID is not provided in the page props, it will default to an empty string.
+ * @description Ha az osztályazonosító nincs megadva az oldalreklámokban, 
+ * akkor alapértelmezés szerint üres karakterlánc lesz.
  */
 let class_id = ref(usePage().props.class_id ?? "");
 
 /**
- * Update the page number based on the given link.
+ * Frissítse az oldalszámot a megadott link alapján.
  *
- * @param {Object} link - The link object containing the URL.
- * @param {string} link.url - The URL from which to extract the page number.
+ * @param {Object} link – Az URL-t tartalmazó linkobjektum.
+ * @param {karakterlánc} link.url – Az URL, ahonnan az oldalszámot ki kell bontani.
  */
 const pageNumberUpdated = (link) => {
-    // Extract the page number from the URL and update the pageNumber reactive reference.
-    // The URL is expected to have a query parameter named "page" with the page number as its value.
-    // For example: "/students?page=2"
+    // Bontsa ki az oldalszámot az URL-ből, és frissítse a pageNumber reaktív hivatkozást.
+    // Az URL-nek egy "page" nevű lekérdezési paraméterrel kell rendelkeznie, amelynek értéke az oldalszám.
+    // Például: "/students?page=2"
     pageNumber.value = link.url.split("=")[1];
 };
 
 
 /**
- * Computed property that returns the URL for fetching students data.
+ * Számított tulajdonság, amely visszaadja az URL-t a tanulók adatainak lekéréséhez.
  *
- * @return {URL} - The URL object containing the URL for fetching students data.
- * @description The URL is constructed using the route function and includes the page number, search term, and class ID as query parameters.
+ * @return {URL} – A tanulói adatok lekéréséhez szükséges URL-t tartalmazó URL-objektum.
+ * @description Az URL-t az útvonal függvény segítségével hozzuk létre, 
+ * és lekérdezési paraméterként tartalmazza az oldalszámot, 
+ * a keresési kifejezést és az osztályazonosítót.
  */
 let studentsUrl = computed(() => {
-    // Create a new URL object using the route function for the students index route.
+    // Hozzon létre egy új URL objektumot a route függvény segítségével a tanulók útvonalának indexéhez.
     const url = new URL(route("students.index"));
 
-    // Set the page number as a query parameter in the URL.
+    // Állítsa be az oldalszámot lekérdezési paraméterként az URL-ben.
     url.searchParams.set("page", pageNumber.value);
 
-    // If a search term is provided, set it as a query parameter in the URL.
+    // Ha keresési kifejezést ad meg, állítsa be lekérdezési paraméterként az URL-ben.
     if (searchTerm.value) {
         url.searchParams.set("search", searchTerm.value);
     }
 
-    // If a class ID is provided, append it as a query parameter in the URL.
+    // Ha meg van adva osztályazonosító, fűzze hozzá lekérdezési paraméterként az URL-hez.
     if (class_id.value) {
         url.searchParams.append("class_id", class_id.value);
     }
 
-    // Return the constructed URL object.
+    // Visszaadja a felépített URL objektumot.
     return url;
 });
 
 
 /**
- * Watches for changes in the studentsUrl computed property and updates the route accordingly.
+ * Figyeli a studentsUrl számított tulajdonság változásait, és ennek megfelelően frissíti az útvonalat.
  *
  * @param {URL} newValue - The new value of the studentsUrl computed property.
- * @description When the studentsUrl computed property changes, it updates the route to reflect the new URL.
- *              This ensures that the data displayed in the page is refreshed with the new URL.
- *              The update is done using the router's visit method, which allows for preserving the current state and scroll position.
+ * @description Amikor a studentsUrl számított tulajdonság megváltozik, frissíti az útvonalat, hogy tükrözze az új URL-t.
+ *              Ez biztosítja, hogy az oldalon megjelenő adatok az új URL-lel frissüljenek.
+ *              A frissítés a router látogatási módszerével történik, amely lehetővé teszi az aktuális állapot és görgetési pozíció megőrzését.
  */
 watch(
-    // Watch for changes in the studentsUrl computed property.
+    // Figyelje a studentsUrl számított tulajdonság változásait.
     () => studentsUrl.value,
-    // When the studentsUrl computed property changes:
+    // Amikor a studentsUrl számított tulajdonság megváltozik:
     (newValue) => {
-        // Update the route to reflect the new URL.
+        // Frissítse az útvonalat, hogy az tükrözze az új URL-t.
         router.visit(newValue, {
-            // Replace the current history entry with the new URL.
+            // Cserélje ki az aktuális előzménybejegyzést az új URL-címre.
             replace: true,
-            // Preserve the current state, including form data and scroll position.
+            // Megőrzi az aktuális állapotot, beleértve az űrlapadatokat és a görgetési pozíciót.
             preserveState: true,
-            // Preserve the current scroll position.
+            // Az aktuális görgetési pozíció megőrzése.
             preserveScroll: true,
         });
     }
 );
 
 /**
- * Watches for changes in the searchTerm reactive reference and updates the pageNumber if a search term is provided.
+ * Figyeli a keresőkifejezés reaktív hivatkozásában bekövetkezett változásokat, és frissíti az oldalszámot, ha keresési kifejezést ad meg.
  *
- * @param {string} value - The new value of the searchTerm reactive reference.
- * @description When the searchTerm reactive reference changes, it checks if a search term is provided. If a search term is provided,
- *              it updates the pageNumber reactive reference to 1, effectively resetting the pagination to the first page.
+ * @param {string} value - A searchTerm reaktív hivatkozás új értéke.
+ * @description Amikor a keresőkifejezés reaktív hivatkozás megváltozik, ellenőrzi, hogy van-e megadva keresett kifejezés. Ha megadja a keresett kifejezést,
+ *              frissíti a pageNumber reaktív hivatkozást 1-re, gyakorlatilag visszaállítja a lapozást az első oldalra.
  */
 watch(
-    // Watch for changes in the searchTerm reactive reference.
+    // Figyelje a searchTerm reaktív hivatkozás változásait.
     () => searchTerm.value,
-    // When the searchTerm reactive reference changes:
+    // Amikor a keresőkifejezés reaktív hivatkozás megváltozik:
     (value) => {
-        // If a search term is provided:
+        // Ha van megadva keresett kifejezés:
         if (value) {
-            // Reset the pageNumber reactive reference to 1.
+            // Állítsa vissza a pageNumber reaktív hivatkozást 1-re.
             pageNumber.value = 1;
         }
     }
 );
 
 /**
- * A reactive form object used for deleting students.
+ * A tanulók törlésére használt reaktív űrlapobjektum.
  * @type {import('@inertiajs/vue3').Form}
  */
 const deleteForm = useForm({
     /**
-     * The form data for the delete form.
+     * A törlési űrlap adatai.
      * @type {Object}
-     * @property {} - The form data is empty, as we don't need to send any data to the server when deleting a student.
+     * @property {} - Az űrlap adatai üresek, mivel tanuló törlésekor nem kell adatokat küldenünk a szerverre.
      */
 });
 
 
 /**
- * Deletes a student.
+ * Töröl egy tanulót.
  *
- * @param {number} id - The ID of the student to delete.
+ * @param {number} id - A törölni kívánt tanuló azonosítója.
  * @returns {void}
  */
 const deleteStudent = (id) => {
-    // Prompt the user to confirm the deletion of the student.
+    // Kérje meg a felhasználót, hogy erősítse meg a tanuló törlését.
     if (confirm("Are you sure you want to delete this student?")) {
-        // Delete the student using the deleteForm reactive form object.
-        // The route method generates a URL for the students.destroy route, passing the student's ID as a parameter.
-        // The delete method sends a DELETE request to the server to delete the student.
-        // The preserveScroll option is set to true, which means the current scroll position will be preserved after the deletion is completed.
+        // Törölje a tanulót a deleteForm reaktív űrlapobjektum segítségével.
+        // A route metódus létrehoz egy URL-t a students.destroy útvonal számára, paraméterként átadva a tanuló azonosítóját.
+        // A delete metódus DELETE kérést küld a szervernek a tanuló törlésére.
+        // A keepScroll beállítás igazra van állítva, ami azt jelenti, hogy a törlés befejezése után az aktuális görgetési pozíció megmarad.
         deleteForm.delete(route("students.destroy", id), {
             preserveScroll: true,
         });

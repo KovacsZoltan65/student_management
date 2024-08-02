@@ -13,27 +13,103 @@ defineProps({
 
 let sections = ref({});
 
+
+/**
+ * Reaktív hivatkozás az űrlap adataira.
+ *
+ * @type {import('@inertiajs/vue3').UseFormReturn<{
+ *     name: string,
+ *     email: string,
+ *     class_id: string,
+ *     section_id: string,
+ * }>}
+ * @description Ez a reaktív hivatkozás a tanuló űrlapadatainak tárolására szolgál.
+ * A `useForm` függvény egy reaktív űrlapobjektum létrehozására szolgál.
+ * A "ref" függvény a tanulói adatok reaktív hivatkozássá alakítására szolgál,
+ * Lehetővé teszi számunkra az űrlapadatok egyszerű frissítését és a Vue komponens reaktív frissítéseinek elindítását.
+ */
 const form = useForm({
+    /**
+     * A tanuló neve.
+     *
+     * @type {string}
+     */
     name: "",
+
+    /**
+     * A hallgató e-mail címe.
+     *
+     * @type {string}
+     */
     email: "",
+
+    /**
+     * Annak az osztálynak az azonosítója, amelyhez a tanuló tartozik.
+     *
+     * @type {string}
+     */
     class_id: "",
+
+    /**
+     * Annak a szakasznak az azonosítója, amelyhez a tanuló tartozik.
+     *
+     * @type {string}
+     */
     section_id: "",
 });
 
+/**
+ * Figyelő a `form.class_id` változására.
+ * Ha a `form.class_id` értéke megváltozik, akkor a `getSections` függvényt hívja meg az új `newValue` értékkel.
+ *
+ * @param {string} newValue - Az új `form.class_id` érték.
+ * @return {void}
+ */
 watch(
     () => form.class_id,
+    /**
+     * Frissíti a szakaszokat az új osztály azonosítója alapján.
+     *
+     * @param {string} newValue - Az új `form.class_id` érték.
+     * @return {void}
+     */
     (newValue) => {
         getSections(newValue);
     }
 );
 
+/**
+ * Lekéri a szakaszokat a megadott osztályazonosító alapján.
+ *
+ * @param {string} class_id - Az osztály azonosítója.
+ * @return {void}
+ */
 const getSections = (class_id) => {
-    axios.get("/api/sections?class_id=" + class_id).then((response) => {
-        sections.value = response.data;
-    });
+    // Állítsa össze az API-végpont URL-jét az osztályazonosító lekérdezési paraméterrel.
+    const url = `/api/sections?class_id=${class_id}`;
+
+    // Készítsen HTTP GET-kérést az API-végponthoz.
+    axios.get(url)
+        // Kezelje az API-ból érkező választ.
+        .then((response) => {
+            // Frissítse a szakaszok reaktív hivatkozását a válaszadatokkal.
+            sections.value = response.data;
+        });
 };
 
+
+/**
+ * A studens létrehozásához használatos függvény.
+ * Az `form` objektumot a `useForm` függvény segítségével jelenítjük meg.
+ * A `route` függvény segítségével előkészítjük az URL-t a `students.store` útvonalra.
+ * A `form.post` metódus segítségével elküldjük az adatokat a kiszolgálóhoz.
+ * A `preserveScroll: true` opcióval a jelenlegi oldal pozíciója megmarad a frissítés után.
+ *
+ * @return {void}
+ */
 const submit = () => {
+    // Elküldjük a form adatait a kiszolgálóhoz a students.store útvonalra.
+    // A preserveScroll opcióval a jelenlegi oldal pozíciója megmarad a frissítés után.
     form.post(route("students.store"), {
         preserveScroll: true,
     });
