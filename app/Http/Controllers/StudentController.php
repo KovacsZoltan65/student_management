@@ -60,7 +60,6 @@ class StudentController extends Controller
      */
     protected function applySearch(Builder $query, $search)
     {
-\Log::info('$search: ' . print_r($search, true));
         // Ha a keresési paraméter megvan, adjon hozzá egy where záradékot a tanulók név szerinti szűréséhez.
         return $query->when($search, function ($query, $search) {
             $query->where('name', 'like', '%' . $search . '%');

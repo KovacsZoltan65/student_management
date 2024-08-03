@@ -38,6 +38,8 @@ class Student extends Model
                 });
             })->when($request->class_id, function ($query) use ($request) {
                 return $query->where('class_id', $request->class_id);
+            })->when($request->section_id, function($query) use($request) {
+                return $query->where('section_id', $request->section_id);
             });
         });
     }
