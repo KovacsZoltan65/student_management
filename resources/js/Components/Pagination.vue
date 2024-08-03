@@ -1,6 +1,19 @@
 <script setup>
 import { router } from "@inertiajs/vue3";
 
+/**
+ * Alkatrész kellékek.
+ *
+ * @typedef {Object} Props
+ * @property {Object} data - Az adatobjektum.
+ * @property {Function} pageNumberUpdated - Az oldalszám frissítésének funkciója.
+ */
+
+/**
+ * Határozza meg az összetevő kellékeit.
+ *
+ * @type {Props}
+ */
 defineProps({
     data: {
         type: Object,
@@ -11,9 +24,16 @@ defineProps({
     },
 });
 
+/**
+ * Frissítse az oldalszámot, és navigáljon az új oldalra.
+ *
+ * @param {Object} link - Az URL-t tartalmazó linkobjektum.
+ */
 const updatePageNumber = (link) => {
+    // Vegye ki az oldalszámot az URL-ből.
     let pageNumber = link.url.split("=")[1];
 
+    // Navigáljon az új oldalra a görgetés pozíciójának megőrzése mellett.
     router.visit(`/students?&page=${pageNumber}`, {
         preserveScroll: true,
     });
