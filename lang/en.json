@@ -5,6 +5,8 @@
     "students_title": "",
     "students_description": "A list of all the Students.",
     "students_add": "Új hallgató",
+    "student_create_title": "Student Information",
+    "student_create_description": "Use this form to create a new student.",
 
     "profile": "Profile",
 
@@ -12,6 +14,9 @@
     "login": "Log in",
     "logout": "Log Out",
     "logged_in": "You're logged in!",
+
+    "cancel": "Cancel",
+    "save": "Save",
 
     "id": "#",
     "name": "Name",
@@ -22,5 +27,11 @@
 
     "edit": "Edit",
     "delete": "Delete",
-    "paginate": "Showing :a to :b of :c results"
+
+    "paginate": "Showing :a to :b of :c results",
+    "filter_by_class": "Filter By Class",
+    "filter_by_section": "Filter By Section",
+    "search": "Search students data...",
+    "select_section": "Select a Section",
+    "select_class": "Select a Class"
 }

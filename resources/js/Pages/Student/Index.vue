@@ -207,10 +207,7 @@ const deleteStudent = (id) => {
                         </div>
 
                         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                            <Link
-                                :href="route('students.create')"
-                                class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-                            >
+                            <Link :href="route('students.create')" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
                                 {{ $t('students_add') }}
                             </Link>
                         </div>
@@ -229,7 +226,7 @@ const deleteStudent = (id) => {
                             <input
                                 type="text"
                                 v-model="searchTerm"
-                                placeholder="Search students data..."
+                                :placeholder="$t('search')"
                                 id="search"
                                 class="block rounded-lg border-0 py-2 pl-10 text-gray-900 ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
@@ -240,7 +237,9 @@ const deleteStudent = (id) => {
                         <!-- Osztályok -->
                         <select v-model="class_id"
                                 class="block rounded-lg border-0 py-2 ml-5 text-gray-900 ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 sm:text-sm sm:leading-6">
-                            <option value="">Filter By Class</option>
+                            <option value="">
+                                {{ $t('filter_by_class') }}
+                            </option>
                             <option :value="item.id" :key="item.id" v-for="item in classes.data">
                                 {{ item.name }}
                             </option>
@@ -248,7 +247,9 @@ const deleteStudent = (id) => {
 
                         <!-- Szakaszok -->
                         <select v-model="section_id" class="block rounded-lg border-0 py-2 ml-5 text-gray-900 ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 sm:text-sm sm:leading-6">
-                            <option value="">Filter By Section</option>
+                            <option value="">
+                                {{ $t('filter_by_section') }}
+                            </option>
                             <option v-for="item in sections.data" :key="item.id" :value="item.id">
                                 {{ item.name }}
                             </option>
@@ -257,16 +258,14 @@ const deleteStudent = (id) => {
                     </div>
 
                     <div class="mt-8 flex flex-col">
-                        <div
-                            class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8"
-                        >
+                        <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8" >
                                 <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg relative" >
                                     <table class="min-w-full divide-y divide-gray-300">
                                         <thead class="bg-gray-50">
                                             <tr>
                                                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                                    {{ $t('columns_id') }}
+                                                    {{ $t('id') }}
                                                 </th>
                                                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                                                     {{ $t('name') }}

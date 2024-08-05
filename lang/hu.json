@@ -4,7 +4,9 @@
     "students": "Hallgatók",
     "students_title": "Hallgatók",
     "students_description": "Az összes diák listája.",
-    "students_add": "Add Student",
+    "students_add": "Új tanuló",
+    "student_create_title": "Hallgatói információ",
+    "student_create_description": "Használja ezt az űrlapot új tanuló létrehozásához.",
 
     "profile": "Profil",
 
@@ -12,6 +14,9 @@
     "login": "Belépés",
     "logout": "Kilépés",
     "logged_in": "Be vagy jelentkezve!",
+
+    "cancel": "Mégsem",
+    "save": "Mentés",
 
     "id": "#",
     "name": "Név",
@@ -23,5 +28,10 @@
     "edit": "Szerkeszt",
     "delete": "Töröl",
 
-    "paginate": "Showing :a to :b of :c results"
+    "paginate": "Sorok megjelenítése :a - :b (összesen :c)",
+    "filter_by_class": "Szűrés osztály szerint",
+    "filter_by_section": "Szűrés szakasz szerint",
+    "search": "Tanulói adatok keresése...",
+    "select_section": "Válasszon egy szakaszt",
+    "select_class": "Válasszon egy osztályt"
 }
