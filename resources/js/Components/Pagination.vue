@@ -52,26 +52,19 @@ const updatePageNumber = (link) => {
                         class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between"
                     >
                         <div>
+                            
+                            
+                        
                             <p class="text-sm text-gray-700">
-                                Showing
-                                <!-- space -->
-                                <span class="font-medium">{{
-                                    data.meta.from
-                                }}</span>
-                                <!-- space -->
-                                to
-                                <!-- space -->
-                                <span class="font-medium">{{
-                                    data.meta.to
-                                }}</span>
-                                <!-- space -->
-                                of
-                                <!-- space -->
-                                <span class="font-medium">{{
-                                    data.meta.total
-                                }}</span>
-                                <!-- space -->
-                                results
+                                {{ $t(
+                                    'paginate', 
+                                    {
+                                        a: data.meta.from, 
+                                        b: data.meta.to, 
+                                        c: data.meta.total
+                                    }
+                                ) 
+                                }}
                             </p>
                         </div>
                         <div>

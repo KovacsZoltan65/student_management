@@ -1,0 +1,26 @@
+{
+    "dashboard": "Dashboard",
+
+    "students": "Students",
+    "students_title": "",
+    "students_description": "A list of all the Students.",
+    "students_add": "Új hallgató",
+
+    "profile": "Profile",
+
+    "register": "Register",
+    "login": "Log in",
+    "logout": "Log Out",
+    "logged_in": "You're logged in!",
+
+    "id": "#",
+    "name": "Name",
+    "email": "Email",
+    "class": "Class",
+    "section": "Section",
+    "ctrated_at": "Created At",
+
+    "edit": "Edit",
+    "delete": "Delete",
+    "paginate": "Showing :a to :b of :c results"
+}

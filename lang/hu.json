@@ -1,0 +1,27 @@
+{
+    "dashboard": "Irányítópult",
+
+    "students": "Hallgatók",
+    "students_title": "Hallgatók",
+    "students_description": "Az összes diák listája.",
+    "students_add": "Add Student",
+
+    "profile": "Profil",
+
+    "register": "Regisztráció",
+    "login": "Belépés",
+    "logout": "Kilépés",
+    "logged_in": "Be vagy jelentkezve!",
+
+    "id": "#",
+    "name": "Név",
+    "email": "Email",
+    "class": "Osztály",
+    "section": "Szakasz",
+    "created_at": "Készült",
+
+    "edit": "Szerkeszt",
+    "delete": "Töröl",
+
+    "paginate": "Showing :a to :b of :c results"
+}

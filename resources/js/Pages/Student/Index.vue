@@ -185,12 +185,12 @@ const deleteStudent = (id) => {
 </script>
 
 <template>
-    <Head title="Students" />
+    <Head :title="$t('students')" />
 
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Students
+                {{ $t("students") }}
             </h2>
         </template>
         <div class="bg-gray-100 py-10">
@@ -199,10 +199,10 @@ const deleteStudent = (id) => {
                     <div class="sm:flex sm:items-center">
                         <div class="sm:flex-auto">
                             <h1 class="text-xl font-semibold text-gray-900">
-                                Students
+                                {{ $t("students_title") }}
                             </h1>
                             <p class="mt-2 text-sm text-gray-700">
-                                A list of all the Students.
+                                {{ $t("students_description") }}
                             </p>
                         </div>
 
@@ -211,7 +211,7 @@ const deleteStudent = (id) => {
                                 :href="route('students.create')"
                                 class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
                             >
-                                Add Student
+                                {{ $t('students_add') }}
                             </Link>
                         </div>
                     </div>
@@ -266,22 +266,22 @@ const deleteStudent = (id) => {
                                         <thead class="bg-gray-50">
                                             <tr>
                                                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                                    ID
+                                                    {{ $t('columns_id') }}
                                                 </th>
                                                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                                    Name
+                                                    {{ $t('name') }}
                                                 </th>
                                                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                                    Email
+                                                    {{ $t('email') }}
                                                 </th>
                                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                    Class
+                                                    {{ $t('class') }}
                                                 </th>
                                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                    Section
+                                                    {{ $t('section') }}
                                                 </th>
                                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                    Created At
+                                                    {{ $t('created_at') }}
                                                 </th>
                                                 <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6" />
                                             </tr>
@@ -309,10 +309,10 @@ const deleteStudent = (id) => {
 
                                                 <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                     <Link :href=" route('students.edit', student.id)" class="text-indigo-600 hover:text-indigo-900">
-                                                        Edit
+                                                        {{ $t('edit') }}
                                                     </Link>
                                                     <button @click="deleteStudent(student.id)" class="ml-2 text-indigo-600 hover:text-indigo-900">
-                                                        Delete
+                                                        {{ $t('delete') }}
                                                     </button>
                                                 </td>
                                             </tr>

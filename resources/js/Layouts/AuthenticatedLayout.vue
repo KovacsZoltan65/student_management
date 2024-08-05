@@ -1,13 +1,23 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/vue3";
+import { loadLanguageAsync } from "laravel-vue-i18n";
 
 const showingNavigationDropdown = ref(false);
+
+const setLocale = (locale) => {
+    loadLanguageAsync(locale);
+};
+
+onMounted(() => {
+    setLocale('hu');
+});
+
 </script>
 
 <template>
@@ -50,7 +60,7 @@ const showingNavigationDropdown = ref(false);
                                     <!--
                                         A navigációs hivatkozás tartalma.
                                     -->
-                                    Dashboard
+                                    {{ $t('dashboard')}}
                                 </NavLink>
                                 <!--
                                     Navigációs hivatkozás a diákok indexoldalára.
@@ -70,7 +80,7 @@ const showingNavigationDropdown = ref(false);
                                     "
                                 >
                                     <!-- A tanulók megjelenítendő szövege -->
-                                    Students
+                                    {{ $t('students') }}
                                 </NavLink>
                             </div>
                         </div>
@@ -135,7 +145,7 @@ const showingNavigationDropdown = ref(false);
                                                 A link, amely a felhasználó profiljának szerkesztésére
                                                 navigál.
                                              -->
-                                            Profile
+                                            {{ $t('profile') }}
                                         </DropdownLink>
                                         <!--
                                             DropdownLink összetevő, amely logout gombot
@@ -151,7 +161,7 @@ const showingNavigationDropdown = ref(false);
                                                 a felhasználó kijelentkezését
                                                 jelzi.
                                              -->
-                                            Log Out
+                                             {{ $t('logout') }}
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
@@ -252,7 +262,7 @@ const showingNavigationDropdown = ref(false);
                         <div class="mt-3 space-y-1">
                             <!-- Link a felhasználó profiloldalára -->
                             <ResponsiveNavLink :href="route('profile.edit')">
-                                Profile
+                                {{ $t('profile') }}
                             </ResponsiveNavLink>
                             <!-- Link a kijelentkezési oldalra -->
                             <ResponsiveNavLink
@@ -260,7 +270,7 @@ const showingNavigationDropdown = ref(false);
                                 method="post"
                                 as="button"
                             >
-                                Log Out
+                                {{ $t('logout') }}
                             </ResponsiveNavLink>
                         </div>
                     </div>
