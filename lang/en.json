@@ -2,8 +2,11 @@
     "dashboard": "Dashboard",
 
     "students": "Students",
-    "students_title": "",
+    "students_title": "Students",
     "students_description": "A list of all the Students.",
+    "student": "Student",
+    "student_edit_title": "Student Information",
+    "student_edit_description": "",
     "students_add": "Új hallgató",
     "student_create_title": "Student Information",
     "student_create_description": "Use this form to create a new student.",
@@ -17,6 +20,7 @@
 
     "cancel": "Cancel",
     "save": "Save",
+    "saved": "Saved",
 
     "id": "#",
     "name": "Name",
@@ -26,6 +30,7 @@
     "ctrated_at": "Created At",
 
     "edit": "Edit",
+    "update": "Update",
     "delete": "Delete",
 
     "paginate": "Showing :a to :b of :c results",
@@ -33,5 +38,22 @@
     "filter_by_section": "Filter By Section",
     "search": "Search students data...",
     "select_section": "Select a Section",
-    "select_class": "Select a Class"
+    "select_class": "Select a Class",
+
+    "delete_account": "Delete Account",
+    "delete_account_title": "Delete Account",
+    "delete_account_description": "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.",
+    "delete_account_confirm": "Are you sure you want to delete your account?",
+
+    "update_password": "Update Password",
+    "update_password_description": "Ensure your account is using a long, random password to stay secure.",
+    "new_password": "New Password",
+    "confirm_password": "Confirm Password",
+    "current_password": "Current Password",
+
+    "profile_information": "Profile Information",
+    "profile_information_description": "Update your account's profile information and email address.",
+    "your_email_address_is_unverified": "Your email address is unverified.",
+    "re_send_verification_email": "Click here to re-send the verification email.",
+    "new_verification_link_sent": "A new verification link has been sent to your email address."
 }

@@ -4,6 +4,11 @@
     "students": "Hallgatók",
     "students_title": "Hallgatók",
     "students_description": "Az összes diák listája.",
+    "student": "Hallgató",
+    
+    "student_edit_title": "Hallgató információ",
+    "student_edit_description": "Használja ezt az űrlapot a tanuló szerkesztésére.",
+
     "students_add": "Új tanuló",
     "student_create_title": "Hallgatói információ",
     "student_create_description": "Használja ezt az űrlapot új tanuló létrehozásához.",
@@ -17,6 +22,7 @@
 
     "cancel": "Mégsem",
     "save": "Mentés",
+    "saved": "Mentve",
 
     "id": "#",
     "name": "Név",
@@ -26,6 +32,7 @@
     "created_at": "Készült",
 
     "edit": "Szerkeszt",
+    "update": "Frissít",
     "delete": "Töröl",
 
     "paginate": "Sorok megjelenítése :a - :b (összesen :c)",
@@ -33,5 +40,22 @@
     "filter_by_section": "Szűrés szakasz szerint",
     "search": "Tanulói adatok keresése...",
     "select_section": "Válasszon egy szakaszt",
-    "select_class": "Válasszon egy osztályt"
+    "select_class": "Válasszon egy osztályt",
+
+    "delete_account": "Fiók törlése",
+    "delete_account_title": "Fiók törlése",
+    "delete_account_description": "A fiók törlését követően az összes erőforrás és adat véglegesen törlődik. Törlés előtt fiókját, kérjük, töltsön le minden olyan adatot vagy információt, amelyet meg szeretne őrizni.",
+    "delete_account_confirm": "Biztosan törölni szeretné fiókját?",
+
+    "update_password": "Jelszó frissítése",
+    "update_password_description": "Győződjön meg róla, hogy fiókja hosszú, véletlenszerű jelszót használ a biztonság megőrzése érdekében.",
+    "new_password": "Új jelszó",
+    "confirm_password": "Jelszó megerősítése",
+    "current_password": "Jelenlegi jelszó",
+
+    "profile_information": "Profil információ",
+    "profile_information_description": "Frissítse fiókja profiladatait és e-mail címét.",
+    "your_email_address_is_unverified": "Az Ön e-mail címe nincs ellenőrizve.",
+    "re_send_verification_email": "Kattintson ide az ellenőrző e-mail újbóli elküldéséhez.",
+    "new_verification_link_sent": "Új ellenőrző linket küldtünk az e-mail címére."
 }
