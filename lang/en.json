@@ -10,6 +10,7 @@
     "students_add": "Új hallgató",
     "student_create_title": "Student Information",
     "student_create_description": "Use this form to create a new student.",
+    "students_search": "Search students data...",
 
     "profile": "Profile",
 
@@ -32,11 +33,11 @@
     "edit": "Edit",
     "update": "Update",
     "delete": "Delete",
+    "search": "Search",
 
     "paginate": "Showing :a to :b of :c results",
     "filter_by_class": "Filter By Class",
     "filter_by_section": "Filter By Section",
-    "search": "Search students data...",
     "select_section": "Select a Section",
     "select_class": "Select a Class",
 
@@ -55,5 +56,11 @@
     "profile_information_description": "Update your account's profile information and email address.",
     "your_email_address_is_unverified": "Your email address is unverified.",
     "re_send_verification_email": "Click here to re-send the verification email.",
-    "new_verification_link_sent": "A new verification link has been sent to your email address."
+    "new_verification_link_sent": "A new verification link has been sent to your email address.",
+
+    "classes": "Claases",
+    "classes_title": "Classes",
+    "classes_description": "A list of all the Classes.",
+    "classes_add": "New Class",
+    "classes_search": "Search classes data..."
 }

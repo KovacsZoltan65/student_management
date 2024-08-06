@@ -34,11 +34,12 @@
     "edit": "Szerkeszt",
     "update": "Frissít",
     "delete": "Töröl",
+    "search": "Keresés",
 
     "paginate": "Sorok megjelenítése :a - :b (összesen :c)",
     "filter_by_class": "Szűrés osztály szerint",
     "filter_by_section": "Szűrés szakasz szerint",
-    "search": "Tanulói adatok keresése...",
+    "students_search": "Tanulói adatok keresése...",
     "select_section": "Válasszon egy szakaszt",
     "select_class": "Válasszon egy osztályt",
 
@@ -57,5 +58,11 @@
     "profile_information_description": "Frissítse fiókja profiladatait és e-mail címét.",
     "your_email_address_is_unverified": "Az Ön e-mail címe nincs ellenőrizve.",
     "re_send_verification_email": "Kattintson ide az ellenőrző e-mail újbóli elküldéséhez.",
-    "new_verification_link_sent": "Új ellenőrző linket küldtünk az e-mail címére."
+    "new_verification_link_sent": "Új ellenőrző linket küldtünk az e-mail címére.",
+
+    "classes": "Osztályok",
+    "classes_title": "Osztályok",
+    "classes_description": "Az összes osztály listája.",
+    "classes_add": "Új osztály",
+    "classes_search": "Keresés az osztály adatok között..."
 }

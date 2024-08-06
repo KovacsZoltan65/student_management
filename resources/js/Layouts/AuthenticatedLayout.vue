@@ -82,6 +82,13 @@ onMounted(() => {
                                     <!-- A tanulók megjelenítendő szövege -->
                                     {{ $t('students') }}
                                 </NavLink>
+
+                                <NavLink :href="route('classes.index')" 
+                                         :active="route().current('classes.index') || 
+                                            route().current('classes.create') || 
+                                            route().current('classes.edit')">
+                                    {{ $t('classes') }}
+                                </NavLink>
                             </div>
                         </div>
 
