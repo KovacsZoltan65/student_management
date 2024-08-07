@@ -10,39 +10,15 @@ import { computed, onMounted, onUnmounted, watch } from 'vue';
  * @property {string} maxWidth - A modál maximális szélessége. Alapértelmezés szerint '2xl'.
  * @property {boolean} closeable - Logikai érték, amely azt jelzi, hogy a modális bezárható-e vagy sem. Alapértelmezés szerint igaz.
  */
-
-/**
- * Props definíciót a Modal komponenshez.
- *
- * @type {ModalProps}
- */
 const props = defineProps({
-    /**
-     * Logikai érték, amely jelzi, hogy a modális megjelenik-e vagy sem.
-     *
-     * @type {boolean}
-     * @default false
-     */
     show: {
         type: Boolean,
         default: false,
     },
-    /**
-     * A modál maximális szélessége.
-     *
-     * @type {string}
-     * @default '2xl'
-     */
     maxWidth: {
         type: String,
         default: '2xl',
     },
-    /**
-     * Logikai érték, amely azt jelzi, hogy a modális bezárható-e vagy sem.
-     *
-     * @type {boolean}
-     * @default true
-     */
     closeable: {
         type: Boolean,
         default: true,
@@ -57,14 +33,7 @@ const props = defineProps({
  *
  * @event close - Kiváltva, ha a modális bezáródik.
  */
-const emit = defineEmits([
-    /**
-     * Kiváltva, ha a modális bezáródik.
-     *
-     * @return {void}
-     */
-    'close'
-]);
+const emit = defineEmits(['close']);
 
 
 /**
@@ -93,15 +62,12 @@ watch(
 
 /**
  * A 'close' metódus a modális bezárására szolgál.
- *
  * Ha a 'closeable' prop értéke igaz, akkor a 'close' eseményt jelzi ki.
  *
  * @return {void}
  */
 const close = () => {
-    // Ha a 'closeable' prop értéke igaz, akkor a 'close' eseményt jelzi ki
     if (props.closeable) {
-        // Jelzi ki a 'close' eseményt
         emit('close');
     }
 };
