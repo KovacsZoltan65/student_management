@@ -8,6 +8,8 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/vue3";
 import { loadLanguageAsync } from "laravel-vue-i18n";
 
+import MegaMenu from "@/Components/MegaMenu.vue";
+
 const showingNavigationDropdown = ref(false);
 
 const setLocale = (locale) => {
@@ -89,6 +91,9 @@ onMounted(() => {
                                             route().current('classes.edit')">
                                     {{ $t('classes') }}
                                 </NavLink>
+
+                                <MegaMenu />
+
                             </div>
                         </div>
 
