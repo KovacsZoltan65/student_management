@@ -30,6 +30,10 @@ class StudentController extends Controller
     {
         // Keresse le a tanulókat az alkalmazott keresési lekérdezéssel.
         $studentQuery = Student::search($request);
+        $students = StudentResource::collection(
+            $studentQuery->paginate(5)
+        );
+\Log::info( print_r($students, true) );
         // Töltse le az összes osztályt.
         $classes = ClassResource::collection(Classes::all());
 
@@ -38,9 +42,7 @@ class StudentController extends Controller
         // Visszatérés az Inertia nézethez a lapszámozott tanulókkal és osztályokkal.
         // A keresési lekérdezési karakterláncot is tartalmazza a válaszban, ha létezik.
         return inertia('Student/Index', [
-            'students' => StudentResource::collection(
-                $studentQuery->paginate(5)
-            ),
+            'students' => $students,
             'classes' => $classes,
             'sections' => $sections,
             'search' => request('search') ?? ''
@@ -61,8 +63,8 @@ class StudentController extends Controller
     protected function applySearch(Builder $query, $search)
     {
         // Ha a keresési paraméter megvan, adjon hozzá egy where záradékot a tanulók név szerinti szűréséhez.
-        return $query->when($search, function ($query, $search) {
-            $query->where('name', 'like', '%' . $search . '%');
+        return $query->when($search, function ($query, string $search) {
+            $query->where('name', 'like', "%{$search}%");
         });
     }
 
